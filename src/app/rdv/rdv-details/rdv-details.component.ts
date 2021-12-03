@@ -17,7 +17,7 @@ export class RdvDetailsComponent implements OnInit {
   rdv : Rdv = new Rdv();
   errorMessage = ""
 
-  constructor( private rdvService : RdvService ,  private ps : PatientService 
+  constructor( public rdvService : RdvService ,  private ps : PatientService 
     , private aRoute : ActivatedRoute , private router : Router ) { 
     let rdvId = Number( this.aRoute.snapshot.paramMap.get('id') ); 
     if( rdvId > 0 ){

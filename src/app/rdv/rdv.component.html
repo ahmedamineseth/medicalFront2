@@ -2,12 +2,12 @@
 
     <div class="alert alert-success" *ngIf="success">Opération effectuée avec succès</div>
 
-    <h1>Liste des Rdv</h1>
+    <h2>Liste des Rdvs</h2>
 
     <div>
         {{ patientRecherche | json }} -- {{ datesearch | json }}
     </div>
-    <form method="get" (submit)="reload()">
+    <form method="get" (submit)="reload()" id="searchForm">
         <div class="row my-4">
             <div class="col-4">
                 <select name="patient" id="patient" required class="form-select" [(ngModel)]="patientRecherche">
@@ -24,12 +24,12 @@
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
             <div class="col-2">
-                <button class="btn btn-primary" [routerLink]="['addedit' , 0 ]">Ajouter un Rdv</button>
+                <button class="btn btn-primary" [routerLink]="['addedit' , 0 ]" id="addbtn">Ajouter un Rdv</button>
             </div>
         </div>
     </form>
 
-    <div class="alert alert-info" *ngIf="rdvs.length == 0">Aucun Rdv trouvé</div>
+    <div class="alert alert-info" *ngIf="rdvs.length == 0" id="no-items-message">Aucun Rdv trouvé</div>
 
     <table class="table table-striped" *ngIf="rdvs.length > 0">
         <thead>

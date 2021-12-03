@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Patient } from '../classes/patient';
@@ -89,50 +89,55 @@ describe('PatientComponent', () => {
       "photouser": "inti7ar.jpg"
     }
 
-    sessionStorage.setItem("user",JSON.stringify(user) )
+    sessionStorage.setItem("user", JSON.stringify(user))
 
     let nbavantAjout = 0
 
-    component.ps.getAll().subscribe( 
-      data => { 
+    component.ps.getAll().subscribe(
+      data => {
         nbavantAjout = data.length
-
-        console.log( "nb avant ajout  = " +  data.length )
-
-
-        component.submitPatient();
-
-        component.ps.getAll().subscribe( 
-          data => { 
-            
-            console.log( "nb après ajout  = " +  data.length )
-
-            expect( data.length ).toBe( nbavantAjout + 1 );
-            
-          }
-         )
-
+        console.log("nb avant ajout  = " + data.length)
       }
-     )
+    )
 
-   
+    component.submitPatient();
 
+    let nbavantAp = 0
+
+    component.ps.getAll().subscribe(
+      data => {
+        console.log("nb après ajout  = " + data.length)
+        nbavantAp = data.length
+      }
+    )
+
+    fixture.whenStable().then(() => {
+      expect(nbavantAp).toBe(nbavantAjout + 1);
+    })
+
+    
     expect(component).toBeTruthy();
   });
 
-  /*it("should reset correctly", () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    
+  /* it("should reset correctly",  () => {
+
+
     let v = new Ville(1, "Paris", 72000, "France");
     component.patient = new Patient(1, "Bonjour", "Dupont", new Date("1972-01-05"), "aa.aa@aa.aa", "01 22 33 44", "Rue de test", v)
     fixture.detectChanges()
+    const compiled = fixture.nativeElement as HTMLElement;
 
-    console.log( "++++++++++++++" + compiled.querySelector('#prenomModal')?.nodeValue )
-    
-    expect(component).toBeTruthy();
+    //fixture.detectChanges();
+    //doSomethingAsy
+
+    fixture.whenStable().finally(() => {
+      let prenomInput = fixture.debugElement.nativeElement.querySelectorAll('#prenomModal');
+
+      console.log("++++++++++++++")
+  
+      expect(prenomInput[0].value).toBe("Dupont"); 
+    });
+    expect(component).toBeTruthy(); 
   });*/
-
-
-
 
 });
